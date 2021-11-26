@@ -13,10 +13,7 @@ from timeOrd.serve import to
 from hrs.serve import hr
 
 app = Sanic(__name__)
-app.blueprint((bim,door,drawing,devices,hr,to))
-
-
+app.blueprint((bim, door, drawing, devices, hr, to))
 
 if __name__ == '__main__':
-
-    app.run(host='0.0.0.0', port=8000, debug=True)
+    app.run(host='0.0.0.0', port=8008, debug=True)
