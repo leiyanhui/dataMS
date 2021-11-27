@@ -2,7 +2,7 @@
 # @Time    : 2021/11/26 1:12 上午
 # @Author  : leiyh
 # @Email   : leiyh0104@163.com
-# @File    : bisd.py
+# @File    : bim.py
 # @Software : PyCharm
 from sanic import json
 
