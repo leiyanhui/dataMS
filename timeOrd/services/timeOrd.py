@@ -7,5 +7,5 @@
 from sanic import json
 
 
-async def get_info():
+async def get_info(*args):
     return json({"name":"leiyh","age":"18","type":"timeOrd"})

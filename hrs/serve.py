@@ -15,5 +15,5 @@ async def bp_root(request,urlString):
     method = "get"
     if request.method == "POST":
         method = "post"
-    response =  await location_url(method, f"hrs-{urlString}")
+    response =  await location_url(method, f"hrs-{urlString}",request.args)
     return response

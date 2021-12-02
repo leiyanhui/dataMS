@@ -6,7 +6,7 @@
 # @Software : PyCharm
 from importlib import import_module
 
-async def location_url(method, stringUrl):
+async def location_url(method, stringUrl,args):
     """
 
     :param stringUrl:
@@ -16,4 +16,4 @@ async def location_url(method, stringUrl):
     funcName = f"{method}_{funcName}"
     obj = import_module(f"{packName}.{modelName}s.{fileName}",funcName)
     func = getattr(obj,funcName)
-    return await func()
+    return await func(args)
