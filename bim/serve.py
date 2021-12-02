@@ -6,12 +6,14 @@
 # @Software : PyCharm
 
 from sanic import Blueprint
+from sanic.request import RequestParameters
+
 from utils.utils import location_url
 
 bim = Blueprint('bim',url_prefix='/bim')
 
-@bim.route('/<urlString>')
-async def bp_root(request,urlString):
+@bim.route('/<urlString>', methods=["GET","POST","PUT","DELETE"])
+async def bp_root(request,urlString:str):
     method = "get"
     if request.method == "POST":
         method = "post"
