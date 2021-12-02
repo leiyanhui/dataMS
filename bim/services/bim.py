@@ -7,9 +7,5 @@
 from sanic import json
 
 
-async def get_info(*args):
-    return json({"name":"leiyh","age":"18","type":"bim"})
-
-async def post_info(*args):
-    print('//////////////',args)
+async def get_info():
     return json({"name":"leiyh","age":"18","type":"bim"})
