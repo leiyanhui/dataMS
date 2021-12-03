@@ -9,9 +9,7 @@ from sanic import Blueprint,response
 
 from utils.util import location_url
 
-bim = Blueprint('bim',url_prefix='/bim')
-
-@bim.route('/<urlString>', methods=["GET","POST","PUT","DELETE"])
+#@bim.route('/<urlString>', methods=["GET","POST","PUT","DELETE"])
 async def bp_root(request,urlString:str):
     """
 
@@ -19,9 +17,9 @@ async def bp_root(request,urlString:str):
     :param urlString:
     :return:
     """
-    method = "get"
-    if request.method == "POST":
-        method = "post"
-    resp =  await location_url(method, f"bim-{urlString}",request)
+    methods_dict= {"POST":"post","GET":"get","PUT":"put","DELETE":"delete"}
+    resp =  await location_url(methods_dict.get(request.method), f"bim-{urlString}",request)
     return response.json(resp)
 
+bim = Blueprint('bim',url_prefix='/bim')
+bim.add_route(bp_root,'/<urlString>', methods=["GET","POST","PUT","DELETE"])
