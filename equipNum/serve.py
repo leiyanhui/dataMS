@@ -6,7 +6,7 @@
 # @Software : PyCharm
 
 from sanic import Blueprint
-from utils.utils import location_url
+from utils.util import location_url
 
 devices = Blueprint('devices',url_prefix='/devices')
 

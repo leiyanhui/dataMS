@@ -6,7 +6,7 @@
 # @Software : PyCharm
 
 from sanic import Blueprint
-from utils.utils import location_url
+from utils.util import location_url
 
 to = Blueprint('timeOrd',url_prefix='/time')
 
