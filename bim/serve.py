@@ -15,7 +15,7 @@ bim = Blueprint('bim',url_prefix='/bim')
 async def bp_root(request,urlString:str):
     """
 
-    :param request:
+    :param request: request is a request object
     :param urlString:
     :return:
     """
@@ -24,3 +24,4 @@ async def bp_root(request,urlString:str):
         method = "post"
     resp =  await location_url(method, f"bim-{urlString}",request)
     return response.json(resp)
+
