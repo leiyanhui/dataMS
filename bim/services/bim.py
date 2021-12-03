@@ -9,6 +9,11 @@ from utils.models import User
 
 
 async def get_info(request):
+    """
+
+    :param request: resuest is request object
+    :return: return a dict
+    """
     session= request.ctx.session
     async with session.begin():
         result = await session.execute(select(User).where(User.name == request.args.get("name")))
@@ -16,6 +21,11 @@ async def get_info(request):
         return {'code': 200,'message':"查询成功","data":user.to_dict()if user else {}}
 
 async def post_info(request):
+    """
+
+    :param request: request is a object
+    :return: return a dict
+    """
     session = request.ctx.session
     get_data = await get_info(request)
     if get_data.get('data',None).get("name") is None:

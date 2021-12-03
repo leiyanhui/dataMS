@@ -13,6 +13,12 @@ bim = Blueprint('bim',url_prefix='/bim')
 
 @bim.route('/<urlString>', methods=["GET","POST","PUT","DELETE"])
 async def bp_root(request,urlString:str):
+    """
+
+    :param request:
+    :param urlString:
+    :return:
+    """
     method = "get"
     if request.method == "POST":
         method = "post"
