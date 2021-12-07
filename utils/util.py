@@ -1,19 +1,1 @@
-# -*- coding: utf-8 -*-
-# @Time    : 2021/11/26 12:58 上午
-# @Author  : leiyh
-# @Email   : leiyh0104@163.com
-# @File    : util.py
-# @Software : PyCharm
-from importlib import import_module
-
-async def location_url(method, stringUrl,args):
-    """
-
-    :param stringUrl:
-    :return:
-    """
-    packName,modelName,fileName, funcName = stringUrl.split("-")
-    funcName = f"{method}_{funcName}"
-    obj = import_module(f"{packName}.{modelName}s.{fileName}",funcName)
-    func = getattr(obj,funcName)
-    return await func(args)
+# -*- coding: utf-8 -*-# @Time    : 2021/11/26 12:58 上午# @Author  : leiyh# @Email   : leiyh0104@163.com# @File    : util.py# @Software : PyCharmimport asyncioimport jsonimport loggingimport tracebackimport typesfrom importlib import import_modulefrom sqlalchemy import selectfrom utils.models import Userasync def location_url(method, stringUrl,args):    """    :param stringUrl:    :return:    """    packName,modelName,fileName, funcName = stringUrl.split("-")    funcName = f"{method}_{funcName}"    obj = import_module(f"{packName}.{modelName}s.{fileName}",funcName)    func = getattr(obj,funcName)    return await func(args)# 类装饰器，进行权限访问class Authority(object):    def __init__(self,func=None,perms=None):        """        :param func:        :param perms:        """        self.perms = perms        self.func = func        if isinstance(func, types.FunctionType):            self.wrapper = self.func_wapper        else:            if not perms:                perms = ["base"]            self.require_perms = set(perms)    async def __check_perms(self,*request):        """        :return:        """        # current_admin 获取当前用户的权限        session = request.ctx.session()        user_info = await session.execute(select(User).where(User.name == request.args.get("name")))        # 查询个人信息，获取个人的权限信息        user_perm = await session.execute(select(User).where(User.name == request.args.get("name")))        if not user_perm in self.require_perms:            return False        return True    async def perm_wapper(self, *args, **kwargs):        """        :param args:        :param kwargs:        :return:        """        if current_user.__tabelName__ != "admin":            raise (403)        if not self.check_perms():            raise(403)        try:            ret = await self.func(*args, **kwargs)        except Exception as e:            logging.error(traceback.format_exc())        else:            return ret    async def func_wapper(self, *request, **kwargs):        """        :param args:        :param kwargs:        :return:        """        result = await self.__check_perms(request)        if result:            try:                ret = await self.func(*request, **kwargs)            except Exception as e:                logging.error(traceback.format_exc())            else:                return ret        else:            return {"message":"No Authority"}    async def __call__(self,*args,**kwargs):        """        :param args:        :param kwargs:        :return:        """        if self.func != None:            await self.func(*args, **kwargs)        else:            if isinstance(args[0],types.FunctionType):                self.func = args[0]                return self.func_wapperasync def func1():    await asyncio.sleep(0)    print("func1")# @Authority(perms=["base"])async def main(request,*args):    await Authority(func=func1)()    #await asyncio.sleep(1)    print("this is main")if __name__ == '__main__':    asyncio.run(main([1,2,3]))
