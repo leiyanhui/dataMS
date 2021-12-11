@@ -4,14 +4,17 @@
 # @Email   : leiyh0104@163.com
 # @File    : models.py
 # @Software : PyCharm
-import _asyncio
+from asyncio import current_task
 
 from sqlalchemy import Column, String, Integer
-from sqlalchemy.ext.asyncio import create_async_engine
+from sqlalchemy.ext.asyncio import create_async_engine, async_scoped_session
 from sqlalchemy.orm import declarative_base
 
-bind = create_async_engine("mysql+aiomysql://root:@localhost:3306/test")
+async_session_factory = create_async_engine("mysql+aiomysql://root:@localhost:3306/test")
+# AsyncSession = async_scoped_session(async_session_factory, scopefunc=current_task)
+# some_async_session = AsyncSession()
 Base = declarative_base()
+
 
 class BaseModel(Base):
     __abstract__ = True
